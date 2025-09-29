@@ -24,8 +24,50 @@ impl Parser {
   // Statements
   // ------------------------
   fn parse_stmt(&mut self) -> Result<Stmt, String> {
-    // peek next token, decide which parse_* to call
-    todo!()
+    match self.peek() {
+      Some(Token::Let) => {
+        self.advance(); // consume 'let'
+        self.parse_let()
+      }
+      Some(Token::Const) => {
+        self.advance(); // consume 'const'
+        self.parse_const()
+      }
+      Some(Token::Fn) => {
+        self.advance(); // consume 'fn'
+        self.parse_fn()
+      }
+      Some(Token::Ret) => {
+        self.advance(); // consume 'return'
+        self.parse_return()
+      }
+      Some(Token::If) => {
+        self.advance(); // consume 'if'
+        self.parse_if()
+      }
+      Some(Token::Loop) => {
+        self.advance(); // consume 'loop'
+        self.parse_loop()
+      }
+      Some(Token::Match) => {
+        self.advance(); // consume 'match'
+        self.parse_match()
+      }
+      Some(Token::Type) => {
+        self.advance(); // consume 'type'
+        self.parse_type()
+      }
+      Some(Token::Enum) => {
+        self.advance(); // consume 'enum'
+        self.parse_enum()
+      }
+      Some(_token) => {
+        // could be an expression statement
+        let expr = self.parse_expr()?;
+        Ok(Stmt::ExprStmt(expr))
+      }
+      None => Err("Unexpected end of input".to_string()),
+    }
   }
 
   fn parse_let(&mut self) -> Result<Stmt, String> {
