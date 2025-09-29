@@ -1,0 +1,9 @@
+[package]
+name = "Fluxum"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+crossbeam = "0.8.4"
+rayon = "1.11.0"
+regex = "1.11.3"
